@@ -38,14 +38,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Archive node_modules
-        uses: actions/upload-artifact@v3
-        with:
-          name: archive-of-node_modules
-          path: |
-            **/node_modules
-            **/.cache
-
   unit-tests:
     needs: install-dependencies
     name: Run tests 🧪
@@ -55,11 +47,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Download node_modules
-        uses: actions/download-artifact@v3
+      - name: Cache node_modules
+        id: cache-pnpm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
         with:
-          name: archive-of-node_modules
-          path: .
+          path: |
+            **/node_modules
+            **/.cache
+            ~/**/.cache
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: Run tests
         run: pnpm test
@@ -73,11 +75,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Download node_modules
-        uses: actions/download-artifact@v3
+      - name: Cache node_modules
+        id: cache-pnpm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
         with:
-          name: archive-of-node_modules
-          path: .
+          path: |
+            **/node_modules
+            **/.cache
+            ~/**/.cache
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: Linter
         run: echo "It's work"
