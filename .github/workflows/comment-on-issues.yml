@@ -6,6 +6,7 @@ on:
 jobs:
   comment:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - run: gh issue comment $ISSUE --body "Thank you for opening this issue!"
         env:
