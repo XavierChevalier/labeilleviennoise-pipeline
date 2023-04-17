@@ -38,12 +38,29 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: Archive node_modules
+        uses: actions/upload-artifact@v3
+        with:
+          name: archive-of-node_modules
+          path: |
+            **/node_modules
+            **/.cache
+
   unit-tests:
     needs: install-dependencies
     name: Run tests 🧪
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download node_modules
+        uses: actions/download-artifact@v3
+        with:
+          name: archive-of-node_modules
+          path: .
+
       - name: Run tests
         run: pnpm test
 
@@ -53,5 +70,14 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download node_modules
+        uses: actions/download-artifact@v3
+        with:
+          name: archive-of-node_modules
+          path: .
+
       - name: Linter
         run: pnpm lint
