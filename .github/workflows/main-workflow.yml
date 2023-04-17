@@ -14,6 +14,27 @@ jobs:
         with:
           version: 7.23.0
 
+      - name: Cache node_modules
+        id: cache-pnpm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: |
+            **/node_modules
+            **/.cache
+            ~/**/.cache
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - if: ${{ steps.cache-pnpm.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: pnpm list --color
+
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
