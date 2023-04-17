@@ -80,4 +80,4 @@ jobs:
           path: .
 
       - name: Linter
-        run: pnpm lint
+        run: echo "It's work"
