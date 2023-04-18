@@ -143,4 +143,4 @@ jobs:
 
       - name: Deploy
         run: |
-          cd apps/website && netlify login  && netlify deploy --prod
+          cd apps/website && netlify deploy --prod
