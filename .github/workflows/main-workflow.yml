@@ -138,8 +138,11 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: Set env
-        run: netlify env:set API_KEY $API_KEY
+      - name: Set envs
+        run: |
+          netlify env:set API_KEY $API_KEY
+          netlify env:set NETLIFY_AUTH_TOKEN $NETLIFY_AUTH_TOKEN
+          netlify env:set NETLIFY_SITE_ID $NETLIFY_SITE_ID
 
       - name: Deploy
         run: |
