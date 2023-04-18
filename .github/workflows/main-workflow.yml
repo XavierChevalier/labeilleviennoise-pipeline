@@ -139,11 +139,8 @@ jobs:
             ${{ runner.os }}-
 
       - name: Set envs
-        run: |
-          netlify env:set API_KEY $API_KEY
-          netlify env:set NETLIFY_AUTH_TOKEN $NETLIFY_AUTH_TOKEN
-          netlify env:set NETLIFY_SITE_ID $NETLIFY_SITE_ID
+        run: netlify env:set API_KEY $API_KEY
 
       - name: Deploy
         run: |
-          cd apps/website && netlify deploy --prod
+          cd apps/website && netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
