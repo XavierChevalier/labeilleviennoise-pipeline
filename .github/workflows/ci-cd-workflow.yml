@@ -142,7 +142,14 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: Set envs
+
+      - name: Move to website folder
+        run: cd apps/website
+
+      - name: Link the project to Netlify
+        run: netlify link --id $NETLIFY_SITE_ID
+
+      - name: Set environment variables to Netlify
         run: |
           netlify env:set API_KEY $API_KEY
           netlify env:set BASE_URL_AUTH $BASE_URL_AUTH
@@ -150,6 +157,7 @@ jobs:
           netlify env:set BASE_URL_BLOG $BASE_URL_BLOG
           netlify env:set BASE_URL_SHOP $BASE_URL_SHOP
 
-      - name: Deploy
+      - name: Deploy to Netlify
         run: |
-          cd apps/website && netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
+          netlify link --id $NETLIFY_SITE_ID
+          netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
