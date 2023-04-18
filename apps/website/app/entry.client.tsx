@@ -1,9 +1,6 @@
-import { registerMonitoring } from '@labeilleviennoise/monitoring'
 import { RemixBrowser } from '@remix-run/react'
 import { startTransition, StrictMode } from 'react'
 import { hydrateRoot } from 'react-dom/client'
-
-registerMonitoring()
 
 function hydrate() {
   startTransition(() => {
