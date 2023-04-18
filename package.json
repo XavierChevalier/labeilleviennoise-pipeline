@@ -37,6 +37,7 @@
     "husky": "^8.0.3",
     "lerna": "^6.4.0",
     "lint-staged": "^13.1.0",
+    "netlify-cli": "^14.0.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.2"
   },
