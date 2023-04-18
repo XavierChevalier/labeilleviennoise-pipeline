@@ -1,4 +1,4 @@
-name: Code quality
+name: CI/CD
 on: [push]
 jobs:
   install-dependencies:
