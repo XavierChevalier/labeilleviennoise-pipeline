@@ -6,37 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install PNPM
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7.23.0
-
-      - name: Cache node_modules
-        id: cache-pnpm
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: |
-            **/node_modules
-            **/.cache
-            ~/**/.cache
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - if: ${{ steps.cache-pnpm.outputs.cache-hit != 'true' }}
-        name: List the state of node modules
-        continue-on-error: true
-        run: pnpm list --color
-
-      - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+      - uses: ./.github/actions/install-dependencies
 
   unit-tests:
     needs: install-dependencies
@@ -44,29 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install PNPM
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7.23.0
-
-      - name: Cache node_modules
-        id: cache-pnpm
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: |
-            **/node_modules
-            **/.cache
-            ~/**/.cache
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+      - uses: ./.github/actions/install-dependencies
 
       - name: Run tests
         run: pnpm test
@@ -77,35 +25,24 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install PNPM
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7.23.0
-
-      - name: Cache node_modules
-        id: cache-pnpm
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: |
-            **/node_modules
-            **/.cache
-            ~/**/.cache
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+      - uses: ./.github/actions/install-dependencies
 
       - name: Linter
         run: echo "It's work"
 
-  deploy:
+  build:
     needs: [linter, unit-tests]
+    name: Build 👷
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - uses: ./.github/actions/install-dependencies
+
+      - name: Build
+        run: pnpm build
+
+  deploy:
+    needs: build
     name: Deploy 🚀
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
@@ -118,30 +55,7 @@ jobs:
       BASE_URL_BLOG: https://websitepipelinetest.netlify.app
       BASE_URL_SHOP: https://websitepipelinetest.netlify.app
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install PNPM
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7.23.0
-
-      - name: Cache node_modules
-        id: cache-pnpm
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: |
-            **/node_modules
-            **/.cache
-            ~/**/.cache
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
+      - uses: ./.github/actions/install-dependencies
 
       - name: Move to website folder
         run: cd apps/website
