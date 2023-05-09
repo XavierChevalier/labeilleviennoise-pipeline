@@ -4,7 +4,7 @@ import { AppLinkButton } from '@labeilleviennoise/ui'
 export const meta = buildMeta({
   title: "La boutique - L'Abeille Viennoise",
   description:
-    "Venez découvrir tous les produits de l'Abeille Viennoise, autour du miel, des abeilles et du crochet.",
+    "Venez découvrir tous les produits de l'Abeille Viennoise test, autour du miel, des abeilles et du crochet.",
 })
 
 export default function Boutique() {
