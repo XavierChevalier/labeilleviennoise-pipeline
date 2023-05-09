@@ -7,6 +7,8 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
       - uses: XavierChevalier/pnpm-install-dependencies@main
+        permissions:
+          actions: write
 
   unit-tests:
     needs: install-dependencies
@@ -15,6 +17,8 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
       - uses: XavierChevalier/pnpm-install-dependencies@main
+        permissions:
+          actions: write
 
       - name: Run tests
         run: pnpm test
@@ -26,6 +30,8 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
       - uses: XavierChevalier/pnpm-install-dependencies@main
+        permissions:
+          actions: write
 
       - name: Linter
         run: echo "It's work"
@@ -37,6 +43,8 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
       - uses: XavierChevalier/pnpm-install-dependencies@main
+        permissions:
+          actions: write
 
       - name: Build
         run: pnpm build
