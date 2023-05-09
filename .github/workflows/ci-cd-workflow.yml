@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
-      - uses: ./.github/actions/install-dependencies
+      - uses: XavierChevalier/labeilleviennoise-shared-ci/.github/actions/install-dependencies
 
   unit-tests:
     needs: install-dependencies
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
-      - uses: ./.github/actions/install-dependencies
+      - uses: XavierChevalier/labeilleviennoise-shared-ci/.github/actions/install-dependencies
 
       - name: Run tests
         run: pnpm test
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
-      - uses: ./.github/actions/install-dependencies
+      - uses: XavierChevalier/labeilleviennoise-shared-ci/.github/actions/install-dependencies
 
       - name: Linter
         run: echo "It's work"
@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
-      - uses: ./.github/actions/install-dependencies
+      - uses: XavierChevalier/labeilleviennoise-shared-ci/.github/actions/install-dependencies
 
       - name: Build
         run: pnpm build
