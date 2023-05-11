@@ -13,9 +13,14 @@
     "dist"
   ],
   "scripts": {
-    "build": "pnpm build-library"
+    "build": "pnpm build-library",
+    "test": "pnpm test:unit",
+    "test:unit": "jest",
+    "test:coverage": "jest --coverage"
   },
   "devDependencies": {
-    "@labeilleviennoise/build": "workspace:*"
+    "@labeilleviennoise/build": "workspace:*",
+    "jest": "^29.3.1",
+    "ts-jest": "^29.0.3"
   }
 }
